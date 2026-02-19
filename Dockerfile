@@ -1,28 +1,22 @@
 FROM node:20-alpine
-
 WORKDIR /app
 
 # Copy everything
 COPY . .
 
-# Debug: verify files
-RUN ls -la /app
+# If using submodule: make sure to fetch it
+RUN git submodule update --init --recursive
+
+# Debug: check build folder
 RUN ls -la /app/build
 
-# 1️⃣ Run the build script
-RUN node build/index.js
+# Run the build script (creates package.json etc.)
+RUN [ -f build/index.js ] && node build/index.js || echo "No build/index.js found"
 
-# 2️⃣ Install dependencies
-RUN npm install --omit=dev
+# Install dependencies if package.json exists
+RUN if [ -f package.json ]; then npm install --omit=dev; fi
 
-# 3️⃣ Read client.name from file and pass as build ARG
-ARG CLIENT_NAME
-RUN export NAME=$(cat /app/CLIENT_NAME) && echo "Client name: $NAME"
-
-# 4️⃣ Set ENV using the ARG
-ENV NAME=$CLIENT_NAME
 ENV PORT=3000
-
 EXPOSE 3000
 
 CMD ["node", "index.js"]
