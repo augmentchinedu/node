@@ -47,9 +47,36 @@ const packagePath = `/workspace/package.json`;
 await writeFile(packagePath, JSON.stringify(packageJson, null, 2));
 console.log(`package.json generated at ${packagePath}`);
 
-// Write .env file with NAME
-const envPath = `/workspace/.env`;
-const envContent = `NAME=${client.name}\n`;
+// 3️⃣ Create Dockerfile for any environment
+const dockerfileContent = `
+# Use official Node.js 20 LTS image
+FROM node:20-alpine
 
-await writeFile(envPath, envContent);
-console.log(`.env file created at ${envPath} with NAME=${client.name}`);
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json first for caching
+COPY package.json package-lock.json* ./
+
+# Install dependencies
+RUN npm ci --omit=dev
+
+# Copy remaining files
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Default environment variables
+ENV PORT=3000
+ENV NODE_ENV=production
+ENV NAME=${client.name}
+
+# Start the app
+CMD ["node", "index.js"]
+`.trim();
+
+const dockerfilePath = `/workspace/Dockerfile`;
+await writeFile(dockerfilePath, dockerfileContent);
+console.log(`Dockerfile generated at ${dockerfilePath}`);
+
