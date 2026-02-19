@@ -1,22 +1,26 @@
 FROM node:20-alpine
+
 WORKDIR /app
 
-# Copy everything
+# Install git and bash for submodules
+RUN apk add --no-cache git bash
+
+# Copy repo
 COPY . .
 
-# If using submodule: make sure to fetch it
+# Initialize submodules
 RUN git submodule update --init --recursive
 
-# Debug: check build folder
+# Debug
 RUN ls -la /app/build
 
-# Run the build script (creates package.json etc.)
-RUN [ -f build/index.js ] && node build/index.js || echo "No build/index.js found"
+# Run build script
+RUN node build/index.js
 
-# Install dependencies if package.json exists
-RUN if [ -f package.json ]; then npm install --omit=dev; fi
+# Install dependencies
+RUN npm install --omit=dev
 
+# Set env and start
 ENV PORT=3000
 EXPOSE 3000
-
 CMD ["node", "index.js"]
