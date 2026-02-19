@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises";
+import { writeFile, mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
@@ -21,6 +21,10 @@ const routes = {
   ],
 };
 
+// Ensure router/ directory exists
+const routerDir = join(__dirname, "router");
+await mkdir(routerDir, { recursive: true });
+
 // Build router file content
 let content = `
 import express from "express";
@@ -42,7 +46,7 @@ export default router;
 `;
 
 // Write to file
-const outputPath = join(__dirname, "router/index.js");
+const outputPath = join(routerDir, "index.js");
 await writeFile(outputPath, content);
 
 console.log("router/index.js generated ✅");
