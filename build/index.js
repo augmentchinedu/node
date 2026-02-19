@@ -14,7 +14,7 @@ if (!name) {
 console.log(`Fetching client config for: ${name}`);
 
 // Call your API
-const response = await fetch(`https://augmentplus.space/api/clients/${name}`);
+const response = await fetch(`https://dummy-rt2a.onrender.com/api/clients/${name}`);
 
 if (!response.ok) {
   throw new Error(`Failed to fetch client data: ${response.status}`);
