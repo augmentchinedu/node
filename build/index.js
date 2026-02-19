@@ -81,13 +81,17 @@ await writeFile(dockerfilePath, dockerfileContent);
 console.log(`Dockerfile generated at ${dockerfilePath}`);
 
 // 4️⃣ Generate app.yaml only if target is GAE
+// 4️⃣ Generate app.yaml only if target is GAE
 if (process.env.DEPLOY_TARGET === "gae") {
   console.log("GAE deployment target detected. Generating app.yaml (Flex)...");
+
+  // If id is "express", use "default", otherwise use id
+  const serviceName = id === "express" ? "default" : id;
 
   const appYamlContent =
     "runtime: custom\n" +
     "env: flex\n" +
-    "service: default\n" +
+    `service: ${serviceName}\n` +
     "\n" +
     "automatic_scaling:\n" +
     "  min_num_instances: 1\n" +
@@ -95,7 +99,9 @@ if (process.env.DEPLOY_TARGET === "gae") {
 
   await writeFile("/workspace/app.yaml", appYamlContent);
 
-  console.log("app.yaml generated for App Engine Flex");
+  console.log(
+    `app.yaml generated for App Engine Flex with service: ${serviceName}`
+  );
 } else {
   console.log("DEPLOY_TARGET is not 'gae'. Skipping app.yaml generation.");
 }
