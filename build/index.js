@@ -49,30 +49,22 @@ console.log(`package.json generated at ${packagePath}`);
 
 // 3️⃣ Create Dockerfile for any environment
 const dockerfileContent = `
-# Use official Node.js 20 LTS image
 FROM node:20-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first for caching
-COPY package.json package-lock.json* ./
+COPY package.json ./
 
-# Install dependencies
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 
-# Copy remaining files
 COPY . .
 
-# Expose port
 EXPOSE 3000
 
-# Default environment variables
 ENV PORT=3000
 ENV NODE_ENV=production
 ENV NAME=${client.name}
 
-# Start the app
 CMD ["node", "index.js"]
 `.trim();
 
