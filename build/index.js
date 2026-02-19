@@ -84,14 +84,14 @@ console.log(`Dockerfile generated at ${dockerfilePath}`);
 if (process.env.DEPLOY_TARGET === "gae") {
   console.log("GAE deployment target detected. Generating app.yaml (Flex)...");
 
-  const appYamlContent = `runtime: custom
-  env: flex
-  service: default
-  
-  automatic_scaling:
-    min_num_instances: 1
-    max_num_instances: 3
-  `;
+  const appYamlContent =
+    "runtime: custom\n" +
+    "env: flex\n" +
+    "service: default\n" +
+    "\n" +
+    "automatic_scaling:\n" +
+    "  min_num_instances: 1\n" +
+    "  max_num_instances: 3\n";
 
   await writeFile("/workspace/app.yaml", appYamlContent);
 
