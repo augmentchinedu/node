@@ -2,6 +2,8 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
+import router from "./router/index.js";
+
 const app = express();
 
 // Middleware
@@ -13,14 +15,11 @@ app.use(express.json());
 const name = process.env.NAME || "App";
 
 // Health check endpoint
-app.get("/", (req, res) => {
-  res.send(`${name} says "Hello World!"`);
-});
-
-// Example API endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", service: name });
 });
+
+app.use(router);
 
 // Use the PORT environment variable provided by GAE
 const PORT = process.env.PORT || 3000;
