@@ -22,7 +22,7 @@ const routes = {
 };
 
 // Ensure router/ directory exists
-const routerDir = join(__dirname, "router");
+const routerDir = join(__dirname, "..", "router");
 await mkdir(routerDir, { recursive: true });
 
 // Build router file content
