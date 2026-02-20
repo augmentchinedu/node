@@ -4,14 +4,8 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
-# Install git and bash for submodules
-RUN apk add --no-cache git bash
-
 # Copy repo contents
 COPY . .
-
-# Initialize submodules (your build folder)
-RUN git submodule update --init --recursive
 
 # Build-time argument for client ID
 ARG ID
