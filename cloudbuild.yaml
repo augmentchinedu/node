@@ -2,29 +2,28 @@ steps:
   # Step 1: Run the build script to generate package.json (and optionally app.yaml)
   - name: "node:20"
     env:
-      - ID=express
-      - DEPLOY_TARGET=gae
+      - ID=${_ID}
     entrypoint: "bash"
     args:
       - "-c"
       - |
-        node build/index.js
+        node build/gae.js
 
   # Step 2: Build Docker image with ID as build-arg
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "build"
       - "--build-arg"
-      - "ID=express"
+      - "ID=${_ID}"
       - "-t"
-      - "gcr.io/$PROJECT_ID/express:latest"
+      - "gcr.io/$PROJECT_ID/${_ID}:latest"
       - "."
 
   # Step 3: Push Docker image to Google Container Registry
   - name: "gcr.io/cloud-builders/docker"
     args:
       - "push"
-      - "gcr.io/$PROJECT_ID/express:latest"
+      - "gcr.io/$PROJECT_ID/${_ID}:latest"
 
   # Step 4: Deploy to App Engine (optional if using Docker in App Engine Flex)
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -32,7 +31,7 @@ steps:
     args:
       - "app"
       - "deploy"
-      - "--image-url=gcr.io/$PROJECT_ID/express:latest"
+      - "--image-url=gcr.io/$PROJECT_ID/${_ID}:latest"
       - "--quiet"
 
 timeout: "1800s"
