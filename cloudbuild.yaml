@@ -28,6 +28,7 @@ steps:
       - app
       - deploy
       - "--quiet"
+      - "--verbosity=debug"
     entrypoint: gcloud
 timeout: 1800s
 options:
