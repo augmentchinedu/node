@@ -1,39 +1,23 @@
 steps:
-  # Step 1: Run the build script to generate package.json (and optionally app.yaml)
-  - name: "node:20"
+  - name: node:20
     env:
       - ID=${_ID}
-    entrypoint: "bash"
+    args:
+      - /workspace/build/index.js
+    entrypoint: node
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
       - "-c"
       - |
-        node build/gae.js
-
-  # Step 2: Build Docker image with ID as build-arg
-  - name: "gcr.io/cloud-builders/docker"
+        echo "Listing workspace files:"
+        ls -R /workspace
+    entrypoint: bash
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
-      - "build"
-      - "--build-arg"
-      - "ID=${_ID}"
-      - "-t"
-      - "gcr.io/$PROJECT_ID/${_ID}:latest"
-      - "."
-
-  # Step 3: Push Docker image to Google Container Registry
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      - "push"
-      - "gcr.io/$PROJECT_ID/${_ID}:latest"
-
-  # Step 4: Deploy to App Engine (optional if using Docker in App Engine Flex)
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-    entrypoint: "gcloud"
-    args:
-      - "app"
-      - "deploy"
-      - "--image-url=gcr.io/$PROJECT_ID/${_ID}:latest"
+      - app
+      - deploy
       - "--quiet"
-
-timeout: "1800s"
+    entrypoint: gcloud
+timeout: 1800s
 options:
   logging: CLOUD_LOGGING_ONLY
