@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 
-// import router from "./router/index.js";
+import router from "./router/index.js";
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", service: name });
 });
 
-// app.use(router);
+app.use(router);
 
 // Use the PORT environment variable provided by GAE
 const PORT = process.env.PORT || 3000;
