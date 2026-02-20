@@ -1,31 +1,25 @@
-# Use official Node.js 20 Alpine image
 FROM node:20-alpine
-
-# Set working directory
 WORKDIR /app
 
-# Copy repo contents
+# Copy repo contents including build script
 COPY . .
 
-# Build-time argument for client ID
 ARG ID
 ENV ID=${ID}
-
-# Optional: set default NAME environment (will be overwritten in build script)
 ENV NAME=unknown
 
-# Debug
 RUN echo "Building with ID=$ID"
 
-# 1️⃣ Run your build script first to generate package.json
+# Make sure build/index.js exists and is executable
+RUN [ -f build/index.js ] || (echo "Error: build/index.js not found" && exit 1)
+
+# Run build script to generate package.json
 RUN node build/index.js
 
-# 2️⃣ Now npm can install dependencies
+# Install dependencies (package.json now exists)
 RUN npm install --omit=dev
 
-# Expose port
 ENV PORT=3000
 EXPOSE 3000
 
-# Start the app
 CMD ["node", "index.js"]
