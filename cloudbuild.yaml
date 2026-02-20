@@ -21,7 +21,7 @@ steps:
     env:
       - ID=${_ID}
     args:
-      - /build/index.js
+      - /workspace/build/index.js
     entrypoint: node
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
