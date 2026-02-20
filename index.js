@@ -22,7 +22,7 @@ app.get("/api/health", (req, res) => {
 app.use(router);
 
 // Use the PORT environment variable provided by GAE
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // Bind to 0.0.0.0 for App Engine
 app.listen(PORT, "0.0.0.0", () => {
