@@ -28,7 +28,6 @@ steps:
       - app
       - deploy
       - "--quiet"
-      - "--verbosity=debug"
     entrypoint: gcloud
 options:
   logging: CLOUD_LOGGING_ONLY
