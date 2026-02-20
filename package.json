@@ -8,6 +8,7 @@
   "license": "ISC",
   "type": "module",
   "scripts": {
+    "gcp-build": "git submodule update --init --recursive",
     "preinstall": "node build/index.js",
     "start": "node index,js"
   }
