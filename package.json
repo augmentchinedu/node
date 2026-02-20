@@ -1,5 +1,14 @@
 {
-    "scripts": {
-        "preinstall": "node build/index.js"
-    }
+  "name": "node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Augment Plus",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "preinstall": "node build/index.js",
+    "start": "node index,js"
+  }
 }
