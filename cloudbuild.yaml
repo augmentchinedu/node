@@ -1,10 +1,4 @@
 steps:
-  - name: node:20
-    env:
-      - ID=${_ID}
-    args:
-      - /build/index.js
-    entrypoint: node
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
       - "-c"
@@ -12,6 +6,12 @@ steps:
         echo "Listing workspace files:"
         ls -R /workspace
     entrypoint: bash
+  - name: node:20
+    env:
+      - ID=${_ID}
+    args:
+      - /build/index.js
+    entrypoint: node
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     args:
       - app
