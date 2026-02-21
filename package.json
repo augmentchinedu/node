@@ -8,7 +8,6 @@
   "license": "ISC",
   "type": "module",
   "scripts": {
-    "preinstall": "node build/index.js",
     "start": "node index.js"
   }
 }
