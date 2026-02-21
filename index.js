@@ -1,30 +1,12 @@
-import express from "express";
-import morgan from "morgan";
-import cors from "cors";
+// index.js
 
-import router from "./router/index.js";
+import { createApp } from "./app.js";
 
-const app = express();
+const PORT = process.env.PORT;
+const name = process.env.APP_NAME || "App";
 
-// Middleware
-app.use(morgan("tiny")); // log requests
-app.use(cors());
-app.use(express.json());
+const app = createApp();
 
-// Environment variable
-const name = process.env.NAME || "App";
-
-// Health check endpoint
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", service: name });
-});
-
-app.use(router);
-
-// Use the PORT environment variable provided by GAE
-const PORT = process.env.PORT || 8080;
-
-// Bind to 0.0.0.0 for App Engine
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`${name} running at http://0.0.0.0:${PORT}`);
 });
