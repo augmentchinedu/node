@@ -1,0 +1,12 @@
+#!/bin/sh
+
+echo "🚀 Running Vitest before push..."
+
+npm run test:run
+
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed. Push blocked."
+  exit 1
+fi
+
+echo "✅ Tests passed."
