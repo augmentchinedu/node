@@ -3,7 +3,7 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import router from "./router/index.js";
+import router from "../router/index.js";
 
 export function createApp() {
   const app = express();
@@ -13,6 +13,10 @@ export function createApp() {
   app.use(express.json());
 
   const name = process.env.APP_NAME || "App";
+
+  app.get("/", (req, res) => {
+    res.send("Hello World");
+  });
 
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", service: name });

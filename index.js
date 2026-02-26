@@ -1,6 +1,6 @@
 // index.js
 
-import { createApp } from "./app.js";
+import { createApp } from "./app/index.js";
 
 const PORT = process.env.PORT;
 const name = process.env.APP_NAME || "App";
