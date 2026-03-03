@@ -1,12 +1,13 @@
 // index.js
 
+import { serve } from "@hono/node-server";
 import { createApp } from "./app.js";
 
-const PORT = process.env.PORT;
+const port = Number(process.env.PORT);
 const name = process.env.APP_NAME || "App";
 
 const app = createApp();
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`${name} running at http://0.0.0.0:${PORT}`);
+serve({ fetch: app.fetch, port, hostname: "0.0.0.0" }, () => {
+  console.log(`${name} running at http://0.0.0.0:${port}`);
 });
