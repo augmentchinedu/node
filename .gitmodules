@@ -4,3 +4,9 @@
 [submodule "build"]
 	path = build
 	url = https://github.com/augmentchinedu/build
+[submodule "utility"]
+	path = utility
+	url = https://github.com/augmentchinedu/utility
+[submodule "functions"]
+	path = functions
+	url = https://github.com/augmentchinedu/functions
