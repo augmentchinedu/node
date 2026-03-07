@@ -13,3 +13,6 @@
 [submodule "data"]
 	path = data
 	url = https://github.com/augmentchinedu/data
+[submodule "resolvers"]
+	path = resolvers
+	url = https://github.com/augmentchinedu/resolvers
