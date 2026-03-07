@@ -16,3 +16,4 @@
 [submodule "resolvers"]
 	path = resolvers
 	url = https://github.com/augmentchinedu/resolvers
+	branch = main
